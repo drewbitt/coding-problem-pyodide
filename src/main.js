@@ -14,7 +14,7 @@ Vue.config.productionTip = false;
 
 const routes = [
   { path: "/", component: Main },
-  { path: "/new", component: New }
+  { path: "/new", name: "new", props: true, component: New }
 ];
 
 const router = new VueRouter({

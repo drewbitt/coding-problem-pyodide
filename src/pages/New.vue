@@ -2,9 +2,12 @@
   <div class="container">
     <section>
       <div class="columns is-centered">
-        <div class="is-full">
+        <div>
+          <b-field label="Name">
+            <b-input v-model="name" />
+          </b-field>
           <b-field label="Input">
-            <b-input v-model="input"></b-input>
+            <b-input v-model="input" />
           </b-field>
           <b-field label="Code">
             <codemirror
@@ -14,7 +17,7 @@
             />
           </b-field>
           <b-field label="Output">
-            <b-input v-model="input"></b-input>
+            <b-input v-model="output" />
           </b-field>
           <b-button type="is-primary">Save</b-button>
           <b-button type="is-primary" outlined>Run</b-button>
@@ -32,6 +35,7 @@ import "codemirror/mode/python/python.js";
 export default {
   name: "New",
   props: {
+    name: String,
     input: String,
     code: String,
     output: String
@@ -46,9 +50,6 @@ export default {
 .codemirror {
   border: 1px solid #000000;
   height: auto;
-}
-
-.b-button {
-  padding-right: 10px;
+  text-align: left;
 }
 </style>

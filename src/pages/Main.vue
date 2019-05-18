@@ -2,8 +2,19 @@
   <div class="container">
     <ul>
       <!--- Using root data for now instead of state-->
-      <li v-for="item in this.$root.$data.items" :key="item.id">
-        {{ item.name }}
+      <li v-for="item in $root.$data.items" :key="item.id">
+        <router-link
+          :to="{
+            name: 'new',
+            params: {
+              name: item.name,
+              input: item.input,
+              code: item.code,
+              output: item.output
+            }
+          }"
+          >{{ item.name }}</router-link
+        >
       </li>
     </ul>
   </div>
