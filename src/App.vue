@@ -20,7 +20,6 @@ export default {
 @import "node_modules/bulma/sass/utilities/_all";
 @import "node_modules/bulma/bulma.sass";
 @import "node_modules/bulmaswatch/pulse/overrides";
-@import "node_modules/buefy/src/scss/buefy";
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
