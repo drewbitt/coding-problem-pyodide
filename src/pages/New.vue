@@ -10,11 +10,7 @@
             <b-input v-model="input" />
           </b-field>
           <b-field label="Code">
-            <codemirror
-              v-model="code"
-              :options="cmOptions"
-              class="codemirror"
-            />
+            <codemirror v-model="code" class="codemirror" />
           </b-field>
           <b-field label="Output">
             <b-input v-model="output" />
@@ -39,21 +35,49 @@ export default {
     input: String,
     code: String,
     output: String,
-    isNew: Boolean
+    isNew: { type: Boolean, default: true },
+    id: Number
   },
   components: {
     codemirror
   },
   methods: {
     updateList() {
-      // need to determine id?
-      this.$root.$data.items.push({
-        id: 100,
-        name: this.name,
-        input: this.input,
-        code: this.code,
-        output: this.ouput
-      });
+      // just terrible - refactor later away from global state / needing ids
+      if (!this.isNew) {
+        var itemCopy = this.$root.$data.items;
+        itemCopy.forEach(
+          function(element, index) {
+            if (element.id == this.id) {
+              this.$root.$data.items[index] = {
+                id: this.id,
+                name: this.name,
+                input: this.input,
+                code: this.code,
+                output: this.output
+              };
+              this.$toast.open({
+                message: "Updated!",
+                position: "is-bottom"
+              });
+            }
+          }.bind(this)
+        );
+      } else {
+        var newId = this.$root.$data.items[this.$root.$data.items.length - 1]
+          .id;
+        this.$root.$data.items.push({
+          id: newId,
+          name: this.name,
+          input: this.input,
+          code: this.code,
+          output: this.output
+        });
+        this.$toast.open({
+          message: `Added! New id ${newId}`,
+          position: "is-bottom"
+        });
+      }
     }
   }
 };
