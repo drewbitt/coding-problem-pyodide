@@ -10,7 +10,9 @@
               name: item.name,
               input: item.input,
               code: item.code,
-              output: item.output
+              output: item.output,
+              id: item.id,
+              isNew: false
             }
           }"
           >{{ item.name }}</router-link

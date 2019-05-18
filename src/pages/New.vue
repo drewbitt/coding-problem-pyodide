@@ -19,8 +19,8 @@
           <b-field label="Output">
             <b-input v-model="output" />
           </b-field>
-          <b-button type="is-primary">Save</b-button>
-          <b-button type="is-primary" outlined>Run</b-button>
+          <b-button type="button is-primary" @click="updateList">Save</b-button>
+          <b-button type="button" outlined>Run</b-button>
         </div>
       </div>
     </section>
@@ -38,10 +38,23 @@ export default {
     name: String,
     input: String,
     code: String,
-    output: String
+    output: String,
+    isNew: Boolean
   },
   components: {
     codemirror
+  },
+  methods: {
+    updateList() {
+      // need to determine id?
+      this.$root.$data.items.push({
+        id: 100,
+        name: this.name,
+        input: this.input,
+        code: this.code,
+        output: this.ouput
+      });
+    }
   }
 };
 </script>
