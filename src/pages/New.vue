@@ -2,21 +2,21 @@
   <div class="container">
     <section>
       <div class="columns is-centered">
-        <div>
+        <div class="column is-half">
           <b-field label="Name">
             <b-input v-model="nameL" />
           </b-field>
           <b-field label="Input">
-            <b-input v-model="inputL" />
+            <textarea class="textarea" v-model="inputL" rows="4" />
           </b-field>
           <b-field label="Code">
             <codemirror v-model="codeL" class="codemirror" />
           </b-field>
           <b-field label="Output">
-            <textarea v-model="outputL" readonly rows="4" />
+            <textarea class="textarea" v-model="outputL" readonly rows="4" />
           </b-field>
           <b-button type="button is-primary" @click="updateList">Save</b-button>
-          <b-button type="button" @click="run()" outlined>Run</b-button>
+          <b-button type="button" @click="runCode()" outlined>Run</b-button>
         </div>
       </div>
     </section>
@@ -30,21 +30,21 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/mode/python/python.js";
 
 export default {
-  name: "New",
+  name: "code-editor",
   props: {
     name: String,
     input: String,
     code: String,
     output: String,
     isNew: { type: Boolean, default: true },
-    id: Number
+    id: String
   },
   data: function () {
     return {
       inputL: this.input,
       nameL: this.name,
       codeL: this.code,
-      outputL: this.output
+      outputL: this.output,
     }
   },
   components: {
@@ -88,15 +88,34 @@ export default {
         });
       }
     },
-    run() {
-      let outputPyodide = null;
-
+    runCode() {
       plugin().then(() => {
         pyodide.loadPackage(['numpy']).then(() => {
                     this.outputL = pyodide.runPython(this.codeL);
                 });
       });
     }
+  },
+  beforeMount() {
+    // if path matches /item/:id
+    if (this.$route.params.id) {
+      var itemCopy = this.$root.$data.items;
+      itemCopy.some(
+        function(element, index) {
+          if (element.id == this.$route.params.id) {
+            this.inputL = element.input;
+            this.outputL = element.output;
+            this.codeL = element.code;
+            this.nameL = element.name;
+            return true;
+          }
+        }.bind(this));
+        
+        if (!this.nameL) {
+          // did not find ID - redirect
+          this.$router.push('/')
+        }
+      }
   }
 };
 </script>

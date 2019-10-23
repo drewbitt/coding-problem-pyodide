@@ -15,8 +15,7 @@
               isNew: false
             }
           }"
-          >{{ item.name }}</router-link
-        >
+        >{{ item.name }}</router-link>
       </li>
     </ul>
   </div>

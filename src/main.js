@@ -4,6 +4,7 @@ import Buefy from "buefy";
 import App from "./App.vue";
 import Main from "./pages/Main.vue";
 import New from "./pages/New.vue";
+import PageNotFound from "./pages/PageNotFound.vue";
 import VueCodemirror from "vue-codemirror";
 import "buefy/dist/buefy.css";
 
@@ -14,11 +15,20 @@ Vue.config.productionTip = false;
 
 const routes = [
   { path: "/", component: Main },
-  { path: "/new", name: "new", props: true, component: New }
+  // don't need to pass props in current implementation
+  {
+    path: "/item/:id",
+    name: "new",
+    props: true,
+    component: New,
+    alias: "/new"
+  },
+  { path: "*", component: PageNotFound }
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: "history"
 });
 
 new Vue({
@@ -26,14 +36,14 @@ new Vue({
   data: {
     items: [
       {
-        id: 1,
+        id: "1",
         name: "Test",
-        code: "",
+        code: "testingcode1",
         input: "",
         output: ""
       },
       {
-        id: 2,
+        id: "2",
         name: "Test2",
         code: "",
         input: "",
