@@ -17,7 +17,7 @@ const routes = [
   { path: "/", component: Main },
   // don't need to pass props in current implementation
   {
-    path: "/item/:id",
+    path: "/item/:id?",
     name: "new",
     props: true,
     component: New,
