@@ -4,6 +4,7 @@ import Buefy from "buefy";
 import App from "./App.vue";
 import Main from "./pages/Main.vue";
 import New from "./pages/New.vue";
+import Existing from "./pages/New.vue";
 import PageNotFound from "./pages/PageNotFound.vue";
 import VueCodemirror from "vue-codemirror";
 import "buefy/dist/buefy.css";
@@ -17,12 +18,12 @@ const routes = [
   { path: "/", component: Main },
   // don't need to pass props in current implementation
   {
-    path: "/item/:id?",
-    name: "new",
+    path: "/item/:id",
+    name: "item",
     props: true,
-    component: New,
-    alias: "/new"
+    component: Existing
   },
+  { path: "/new", name: "new", component: New },
   { path: "*", component: PageNotFound }
 ];
 

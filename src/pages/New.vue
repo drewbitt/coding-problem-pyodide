@@ -39,13 +39,13 @@ export default {
     isNew: { type: Boolean, default: true },
     id: String
   },
-  data: function () {
+  data: function() {
     return {
       inputL: this.input,
       nameL: this.name,
       codeL: this.code,
-      outputL: this.output,
-    }
+      outputL: this.output
+    };
   },
   components: {
     codemirror
@@ -90,9 +90,9 @@ export default {
     },
     runCode() {
       plugin().then(() => {
-        pyodide.loadPackage(['numpy']).then(() => {
-                    this.outputL = pyodide.runPython(this.codeL);
-                });
+        pyodide.loadPackage(["numpy"]).then(() => {
+          this.outputL = pyodide.runPython(this.codeL);
+        });
       });
     }
   },
@@ -101,7 +101,7 @@ export default {
     if (this.$route.params.id) {
       var itemCopy = this.$root.$data.items;
       itemCopy.some(
-        function(element, index) {
+        function(element) {
           if (element.id == this.$route.params.id) {
             this.inputL = element.input;
             this.outputL = element.output;
@@ -109,13 +109,14 @@ export default {
             this.nameL = element.name;
             return true;
           }
-        }.bind(this));
-        
-        if (!this.nameL) {
-          // did not find ID - redirect
-          this.$router.push('/')
-        }
+        }.bind(this)
+      );
+
+      if (!this.nameL) {
+        // did not find ID - redirect
+        this.$router.push("/");
       }
+    }
   }
 };
 </script>

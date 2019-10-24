@@ -5,7 +5,7 @@
       <li v-for="item in $root.$data.items" :key="item.id">
         <router-link
           :to="{
-            name: 'new',
+            name: 'item',
             params: {
               name: item.name,
               input: item.input,
@@ -15,7 +15,8 @@
               isNew: false
             }
           }"
-        >{{ item.name }}</router-link>
+          >{{ item.name }}</router-link
+        >
       </li>
     </ul>
   </div>
