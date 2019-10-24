@@ -73,15 +73,17 @@ export default {
           }.bind(this)
         );
       } else {
-        var newId = parseInt(this.$root.$data.items[this.$root.$data.items.length - 1]
-          .id) + 1;
-        newId = newId + '';
+        var newId =
+          parseInt(
+            this.$root.$data.items[this.$root.$data.items.length - 1].id
+          ) + 1;
+        newId = newId + "";
         this.$root.$data.items.push({
           id: newId,
-          name: this.name,
-          input: this.input,
-          code: this.code,
-          output: this.output
+          name: this.nameL,
+          input: this.inputL,
+          code: this.codeL,
+          output: this.outputL
         });
         this.$toast.open({
           message: `Added! New id ${newId}`,
