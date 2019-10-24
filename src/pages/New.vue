@@ -73,8 +73,9 @@ export default {
           }.bind(this)
         );
       } else {
-        var newId = this.$root.$data.items[this.$root.$data.items.length - 1]
-          .id;
+        var newId = parseInt(this.$root.$data.items[this.$root.$data.items.length - 1]
+          .id) + 1;
+        newId = newId + '';
         this.$root.$data.items.push({
           id: newId,
           name: this.name,
