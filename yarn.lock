@@ -1475,11 +1475,12 @@ browserslist@^4.0.0, browserslist@^4.3.4, browserslist@^4.5.4:
     electron-to-chromium "^1.3.133"
     node-releases "^1.1.19"
 
-buefy@^0.7.5:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.7.5.tgz#d25fcbb69beeb898849b47b52be78dfd2849452f"
+buefy@^0.8.6:
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.8.6.tgz#a8d7e570914b95d8d5aadc40f87bcdfbaf552f0e"
+  integrity sha512-7woxrdwANcnJbe7lofPxkJLGRRGIVwFXOo0kzEpiNB6alQj18NV6UrdAKse+LWCOADz+AeHe5gyc6qdgRjG5mw==
   dependencies:
-    bulma "0.7.4"
+    bulma "0.7.5"
 
 buffer-from@^1.0.0:
   version "1.1.1"
@@ -1505,9 +1506,10 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-bulma@0.7.4, bulma@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"
+bulma@0.7.5, bulma@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"
+  integrity sha512-cX98TIn0I6sKba/DhW0FBjtaDpxTelU166pf7ICXpCCuplHWyu6C9LYZmL5PEsnePIeJaiorsTEzzNk3Tsm1hw==
 
 bulmaswatch@^0.7.2:
   version "0.7.2"
@@ -6851,9 +6853,10 @@ vue-loader@^15.7.0:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.6.tgz#2e4f0f9cbb0b96d0205ab2690cfe588935136ac3"
+vue-router@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.1.3.tgz#e6b14fabc0c0ee9fda0e2cbbda74b350e28e412b"
+  integrity sha512-8iSa4mGNXBjyuSZFCCO4fiKfvzqk+mhL0lnKuGcQtO1eoj8nq3CmbEG8FwK5QqoqwDgsjsf1GDuisDX4cdb/aQ==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"
