@@ -2,7 +2,7 @@
   <div class="container">
     <section>
       <div class="columns is-centered">
-        <div class="column is-half">
+        <div class="column is-half is-vcentered">
           <b-field label="Name">
             <b-input v-model="nameL" />
           </b-field>
@@ -10,7 +10,7 @@
             <textarea class="textarea" v-model="inputL" rows="4" />
           </b-field>
           <b-field label="Code">
-            <codemirror v-model="codeL" class="codemirror" />
+            <codemirror v-model="codeL" class="codemirror" :options="cmOption" />
           </b-field>
           <b-field label="Output">
             <textarea class="textarea" v-model="outputL" readonly rows="4" />
@@ -26,7 +26,9 @@
 <script>
 import { codemirror } from "vue-codemirror";
 import { plugin } from "../pyodide/pyodide";
-import "codemirror/lib/codemirror.css";
+// codemirror theme
+import 'codemirror/theme/lesser-dark.css';
+import 'codemirror/lib/codemirror.css';
 import "codemirror/mode/python/python.js";
 
 export default {
@@ -44,7 +46,16 @@ export default {
       inputL: this.input,
       nameL: this.name,
       codeL: this.code,
-      outputL: this.output
+      outputL: this.output,
+      cmOption: {
+        tabSize: 4,
+        styleActiveLine: true,
+        lineNumbers: true,
+        lineWrapping: false,
+        line: true,
+        mode: 'text/x-python',
+        theme: 'lesser-dark'
+      }
     };
   },
   components: {
