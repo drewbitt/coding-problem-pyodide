@@ -1,9 +1,10 @@
 <template>
-  <div class="container">
-    <ul>
+  <div class="columns is-centered">
       <!--- Using root data for now instead of state-->
+      <ul>
       <li v-for="item in this.$root.$data.items" :key="item.id">
-        <router-link
+      <b-button expanded type="is-dark is-medium" >
+                <router-link
           :to="{
             name: 'item',
             params: {
@@ -16,8 +17,9 @@
             }
           }"
         >{{ item.name }}</router-link>
+      </b-button>
       </li>
-    </ul>
+      </ul>
   </div>
 </template>
 
