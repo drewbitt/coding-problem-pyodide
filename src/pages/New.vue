@@ -90,7 +90,7 @@ export default {
                 code: this.code,
                 output: this.output
               };
-              this.$toast.open({
+              this.$buefy.toast.open({
                 message: "Updated!",
                 position: "is-bottom"
               });
@@ -110,7 +110,7 @@ export default {
           code: this.codeL,
           output: this.outputL
         });
-        this.$toast.open({
+        this.$buefy.toast.open({
           message: `Added! New id ${newId}`,
           position: "is-bottom"
         });
@@ -154,11 +154,5 @@ export default {
   border: 1px solid #000000;
   height: auto;
   text-align: left;
-}
-.labelcustom {
-  color: white;
-}
-#fields {
-  color: white;
 }
 </style>
