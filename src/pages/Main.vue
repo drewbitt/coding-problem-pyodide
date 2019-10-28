@@ -1,11 +1,12 @@
 <template>
   <div class="columns is-centered">
-      <!--- Using root data for now instead of state-->
-      <ul>
+    <!--- Using root data for now instead of state-->
+    <ul>
+      <h1>All Projects</h1>
       <li v-for="item in this.$root.$data.items" :key="item.id" style="margin: 10px;">
-      <b-button expanded type="is-dark is-medium">
-                <router-link
-          :to="{
+        <b-button expanded type="is-dark is-medium">
+          <router-link
+            :to="{
             name: 'item',
             params: {
               name: item.name,
@@ -16,10 +17,10 @@
               isNew: false
             }
           }"
-        >{{ item.name }}</router-link>
-      </b-button>
+          >{{ item.name }}</router-link>
+        </b-button>
       </li>
-      </ul>
+    </ul>
   </div>
 </template>
 
@@ -28,3 +29,10 @@ export default {
   name: "Main"
 };
 </script>
+
+<style scoped>
+h1 {
+  font-size: 2em;
+  color: white;
+}
+</style>

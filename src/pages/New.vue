@@ -3,20 +3,34 @@
     <section>
       <div class="columns is-centered">
         <div class="column is-half is-vcentered">
-          <b-field label="Name">
-            <b-input v-model="nameL" />
-          </b-field>
-          <b-field label="Input">
-            <textarea class="textarea" v-model="inputL" rows="4" />
-          </b-field>
-          <b-field label="Code">
-            <codemirror v-model="codeL" class="codemirror" :options="cmOption" />
-          </b-field>
-          <b-field label="Output">
-            <textarea class="textarea" v-model="outputL" readonly rows="4" />
-          </b-field>
-          <b-button type="button is-primary" @click="updateList">Save</b-button>
-          <b-button type="button" @click="runCode()" outlined>Run</b-button>
+          <div id="fields">
+            <b-field>
+              <template slot="label">
+                <span class="has-text-white">Name</span>
+              </template>
+              <b-input v-model="nameL" />
+            </b-field>
+            <b-field>
+              <template slot="label">
+                <span class="has-text-white">Input</span>
+              </template>
+              <textarea class="textarea" v-model="inputL" rows="4" />
+            </b-field>
+            <b-field>
+              <template slot="label">
+                <span class="has-text-white">Code</span>
+              </template>
+              <codemirror v-model="codeL" class="codemirror" :options="cmOption" />
+            </b-field>
+            <b-field>
+              <template slot="label">
+                <span class="has-text-white">Output</span>
+              </template>
+              <textarea class="textarea" v-model="outputL" readonly rows="4" />
+            </b-field>
+            <b-button type="button is-primary" @click="updateList">Save</b-button>
+            <b-button type="button" @click="runCode()" outlined>Run</b-button>
+          </div>
         </div>
       </div>
     </section>
@@ -27,8 +41,8 @@
 import { codemirror } from "vue-codemirror";
 import { plugin } from "../pyodide/pyodide";
 // codemirror theme
-import 'codemirror/theme/lesser-dark.css';
-import 'codemirror/lib/codemirror.css';
+import "codemirror/theme/lesser-dark.css";
+import "codemirror/lib/codemirror.css";
 import "codemirror/mode/python/python.js";
 
 export default {
@@ -53,8 +67,8 @@ export default {
         lineNumbers: true,
         lineWrapping: false,
         line: true,
-        mode: 'text/x-python',
-        theme: 'lesser-dark'
+        mode: "text/x-python",
+        theme: "lesser-dark"
       }
     };
   },
@@ -140,5 +154,11 @@ export default {
   border: 1px solid #000000;
   height: auto;
   text-align: left;
+}
+.labelcustom {
+  color: white;
+}
+#fields {
+  color: white;
 }
 </style>
