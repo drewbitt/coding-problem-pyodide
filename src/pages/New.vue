@@ -119,9 +119,23 @@ export default {
     runCode() {
       plugin().then(() => {
         pyodide.loadPackage(["numpy"]).then(() => {
-          this.outputL = pyodide.runPython(this.codeL);
+          this.outputL = pyodide.runPython(newCode);
         });
       });
+    },
+    typeString(vr) {
+      if(vr === "" || vr == null) {
+        return null;
+      }
+      if (vr.match(/^[+-]?\d+$/)) {
+          return parseInt(vr);
+        }
+        else if(vr.match(/^[+-]?\d+(\.\d+)?$/)) {
+          return parseFloat(vr);
+        }
+        else {
+          return vr;
+        }
     }
   },
   beforeMount() {
@@ -143,6 +157,40 @@ export default {
       if (!this.nameL) {
         // did not find ID - redirect
         this.$router.push("/");
+      }
+    }
+  },
+  computed: {
+    realInput: function() {
+      if(this.inputL == null) {
+        return "";
+      }
+
+      // bad way to see if multiple lines - fix if possible
+      else if (this.inputL.includes("\n")) {
+        console.log('got here');
+        newArr = '[';
+
+        this.inputL.split('\n').forEach(function(element) {
+          inp = this.typeString(element);
+
+          if(inp == null) {
+            return "";
+          }
+          else if (typeof inp === 'string' || inp instanceof String) {
+            newArr = newArr + '\'' + inp + '\',';
+          }
+          else {
+            newArr = newArr + inp + ',';
+          }
+        });
+        newArr = newArr + ']';
+        return newArr;
+      }
+
+      else {
+        // type them correctly
+        return this.typeString(this.inputL);
       }
     }
   }
