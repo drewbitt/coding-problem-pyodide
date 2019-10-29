@@ -119,23 +119,37 @@ export default {
     runCode() {
       plugin().then(() => {
         pyodide.loadPackage(["numpy"]).then(() => {
-          this.outputL = pyodide.runPython(newCode);
+          // if there is a variable to set
+          if (this.realInput) {
+            if (this.isString(this.realInput)) {
+              this.outputL = pyodide.runPython(
+                "inp='" + this.realInput + "'\n" + this.codeL
+              );
+            } else {
+              this.outputL = pyodide.runPython(
+                "inp=" + this.realInput + "\n" + this.codeL
+              );
+            }
+          } else {
+            this.outputL = pyodide.runPython(this.codeL);
+          }
         });
       });
     },
     typeString(vr) {
-      if(vr === "" || vr == null) {
+      if (vr === "" || vr == null) {
         return null;
       }
       if (vr.match(/^[+-]?\d+$/)) {
-          return parseInt(vr);
-        }
-        else if(vr.match(/^[+-]?\d+(\.\d+)?$/)) {
-          return parseFloat(vr);
-        }
-        else {
-          return vr;
-        }
+        return parseInt(vr);
+      } else if (vr.match(/^[+-]?\d+(\.\d+)?$/)) {
+        return parseFloat(vr);
+      } else {
+        return vr;
+      }
+    },
+    isString(vr) {
+      return Object.prototype.toString.call(vr) === "[object String]";
     }
   },
   beforeMount() {
@@ -162,34 +176,34 @@ export default {
   },
   computed: {
     realInput: function() {
-      if(this.inputL == null) {
-        return "";
+      // currently not supporting numbers being strings
+
+      if (this.inputL == null) {
+        return null;
       }
 
       // bad way to see if multiple lines - fix if possible
       else if (this.inputL.includes("\n")) {
-        console.log('got here');
-        newArr = '[';
+        var newArr = "[";
 
-        this.inputL.split('\n').forEach(function(element) {
-          inp = this.typeString(element);
+        this.inputL.split("\n").forEach(function(element) {
+          var inp = this.typeString(element);
 
-          if(inp == null) {
-            return "";
-          }
-          else if (typeof inp === 'string' || inp instanceof String) {
-            newArr = newArr + '\'' + inp + '\',';
-          }
-          else {
-            newArr = newArr + inp + ',';
+          if (inp == null) {
+            return null;
+          } else if (
+            // check if string
+            this.isString(inp)
+          ) {
+            newArr = newArr + "'" + inp + "',";
+          } else {
+            newArr = newArr + inp + ",";
           }
         });
-        newArr = newArr + ']';
+        newArr = newArr + "]";
         return newArr;
-      }
-
-      else {
-        // type them correctly
+      } else {
+        // type them correctly if numbers or strings
         return this.typeString(this.inputL);
       }
     }
