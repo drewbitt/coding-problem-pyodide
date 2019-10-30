@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "buefy/dist/buefy.css";
+import itemsjson from "../items.json";
 
 Vue.use(VueRouter);
 Vue.use(Buefy, {
@@ -45,22 +46,7 @@ const router = new VueRouter({
 new Vue({
   router: router,
   data: {
-    items: [
-      {
-        id: "1",
-        name: "Test",
-        code: "testingcode1",
-        input: "",
-        output: ""
-      },
-      {
-        id: "2",
-        name: "Test2",
-        code: "",
-        input: "",
-        output: ""
-      }
-    ]
+    items: itemsjson
   },
   render: h => h(App)
 }).$mount("#app");
