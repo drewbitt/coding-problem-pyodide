@@ -6,6 +6,8 @@ NumPy is included by default. To add other packages, in `runCode()` in `New.vue`
 
 ![Example code page](public/photos/example.png)
 
+Note that pyodide does not support returning stdout—it only goes to the console. To print out a variable to the output, simply list the variable as if it was a python shell.
+
 ## Project setup
 
 ```
