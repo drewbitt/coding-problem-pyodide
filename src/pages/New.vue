@@ -12,7 +12,10 @@
             </b-field>
             <b-field>
               <template slot="label">
-                <span class="has-text-white">Input</span>
+                <span class="has-text-white" style="padding: 0.4em">Input</span>
+                <b-tooltip label="Sets the variable 'inp' to input" style="top: 6px;">
+                  <b-icon pack="fas" icon="info-circle" type="is-white" />
+                </b-tooltip>
               </template>
               <textarea class="textarea" v-model="inputL" rows="4" />
             </b-field>

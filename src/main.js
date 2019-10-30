@@ -7,11 +7,21 @@ import New from "./pages/New.vue";
 import Existing from "./pages/New.vue";
 import PageNotFound from "./pages/PageNotFound.vue";
 import VueCodemirror from "vue-codemirror";
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+
 import "buefy/dist/buefy.css";
 
 Vue.use(VueRouter);
-Vue.use(Buefy);
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas',
+});
 Vue.use(VueCodemirror);
+library.add(faInfoCircle);
+Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
 const routes = [
