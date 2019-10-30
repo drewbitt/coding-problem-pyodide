@@ -20,7 +20,11 @@
               <template slot="label">
                 <span class="has-text-white">Code</span>
               </template>
-              <codemirror v-model="codeL" class="codemirror" :options="cmOption" />
+              <codemirror
+                v-model="codeL"
+                class="codemirror"
+                :options="cmOption"
+              />
             </b-field>
             <b-field>
               <template slot="label">
@@ -28,7 +32,9 @@
               </template>
               <textarea class="textarea" v-model="outputL" readonly rows="4" />
             </b-field>
-            <b-button type="button is-primary" @click="updateList">Save</b-button>
+            <b-button type="button is-primary" @click="updateList"
+              >Save</b-button
+            >
             <b-button type="button" @click="runCode()" outlined>Run</b-button>
           </div>
         </div>
@@ -185,21 +191,28 @@ export default {
       // bad way to see if multiple lines - fix if possible
       else if (this.inputL.includes("\n")) {
         var newArr = "[";
-
-        this.inputL.split("\n").forEach(function(element) {
-          var inp = this.typeString(element);
-
+        var splitArr = this.inputL.split("\n");
+        for (let i = 0; i < splitArr.length; i++) {
+          var inp = this.typeString(splitArr[i]);
           if (inp == null) {
             return null;
           } else if (
             // check if string
             this.isString(inp)
           ) {
-            newArr = newArr + "'" + inp + "',";
+            if (i == splitArr.length - 1) {
+              newArr = newArr + "'" + inp + "'";
+            } else {
+              newArr = newArr + "'" + inp + "',";
+            }
           } else {
-            newArr = newArr + inp + ",";
+            if (i == splitArr.length - 1) {
+              newArr = newArr + inp;
+            } else {
+              newArr = newArr + inp + ",";
+            }
           }
-        });
+        }
         newArr = newArr + "]";
         return newArr;
       } else {
