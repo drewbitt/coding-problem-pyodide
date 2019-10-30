@@ -127,13 +127,18 @@ export default {
         pyodide.loadPackage(["numpy"]).then(() => {
           // if there is a variable to set
           if (this.realInput) {
-            if (this.isString(this.realInput)) {
+            // check if not array and is string to see if need quotes
+            if (
+              this.isString(this.realInput) &&
+              // bad way to see if multiple lines - fix if possible
+              !this.inputL.includes("\n")
+            ) {
               this.outputL = pyodide.runPython(
-                "inp='" + this.realInput + "'\n" + this.codeL
+                'inp = "' + this.realInput + '"\n' + this.codeL
               );
             } else {
               this.outputL = pyodide.runPython(
-                "inp=" + this.realInput + "\n" + this.codeL
+                "inp = " + this.realInput + "\n" + this.codeL
               );
             }
           } else {
@@ -200,6 +205,7 @@ export default {
             // check if string
             this.isString(inp)
           ) {
+            // deal with trailing commas
             if (i == splitArr.length - 1) {
               newArr = newArr + "'" + inp + "'";
             } else {
