@@ -12,13 +12,15 @@
             </b-field>
             <b-field>
               <template slot="label">
-                <span class="has-text-white" style="padding: 0.4em">Input</span>
-                <b-tooltip
-                  label="Sets the variable 'inp' to input"
-                  style="top: 6px;"
-                >
-                  <b-icon pack="fas" icon="info-circle" type="is-white" />
-                </b-tooltip>
+                <span class="has-text-white" style="padding: 0.4em">Input
+                  <b-tooltip
+                    label="Sets the variable 'inp' to input. Multi-line input treated as an array."
+                    style="top: 6px;"
+                    multilined="true"
+                  >
+                    <b-icon pack="fas" icon="info-circle" type="is-white" />
+                  </b-tooltip>
+                </span>
               </template>
               <textarea class="textarea" v-model="inputL" rows="4" />
             </b-field>
@@ -133,27 +135,32 @@ export default {
         pyodide.loadPackage(["numpy"]).then(() => {
           // if there is a variable to set
           if (this.realInput) {
+            // Type of input check
             // check if not array and is string to see if need quotes
             if (
               this.isString(this.realInput) &&
-              // bad way to see if multiple lines - fix if possible
+              // Make sure it's not multiple lines
               !this.inputL.includes("\n")
             ) {
+              // single line string - put quotes around it
               this.outputL = pyodide.runPython(
                 'inp = "' + this.realInput + '"\n' + this.codeL
               );
             } else {
+              // Not string. 
               this.outputL = pyodide.runPython(
                 "inp = " + this.realInput + "\n" + this.codeL
               );
             }
           } else {
+            // Nothing in input. Just run code.
             this.outputL = pyodide.runPython(this.codeL);
           }
         });
       });
     },
-    typeString(vr) {
+    typeInput(vr) {
+      // Uses regex to determine object types, used for input
       if (vr === "" || vr == null) {
         return null;
       }
@@ -161,6 +168,9 @@ export default {
         return parseInt(vr);
       } else if (vr.match(/^[+-]?\d+(\.\d+)?$/)) {
         return parseFloat(vr);
+        // Matches array (incomplete)
+      } else if (vr.match(/^\[.+,\S+\]$/)) {
+        return vr.slice(1,-1).split(',');
       } else {
         return vr;
       }
@@ -170,7 +180,7 @@ export default {
     }
   },
   beforeMount() {
-    // if path matches /item/:id
+    // if path matches /item/:id, get data from json loaded in root
     if (this.$route.params.id) {
       var itemCopy = this.$root.$data.items;
       itemCopy.some(
@@ -199,16 +209,16 @@ export default {
         return null;
       }
 
-      // bad way to see if multiple lines - fix if possible
+      // Deal with multiple line input by putting each line in an array
       else if (this.inputL.includes("\n")) {
         var newArr = "[";
         var splitArr = this.inputL.split("\n");
         for (let i = 0; i < splitArr.length; i++) {
-          var inp = this.typeString(splitArr[i]);
+          var inp = this.typeInput(splitArr[i]);
           if (inp == null) {
             return null;
           } else if (
-            // check if string
+            // If string, add quotes
             this.isString(inp)
           ) {
             // deal with trailing commas
@@ -228,8 +238,8 @@ export default {
         newArr = newArr + "]";
         return newArr;
       } else {
-        // type them correctly if numbers or strings
-        return this.typeString(this.inputL);
+        // type them correctly if numbers, strings, array
+        return this.typeInput(this.inputL);
       }
     }
   }
