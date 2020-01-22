@@ -29,6 +29,7 @@ export default {
   border-radius: 1em;
   margin: 1em;
   box-shadow: 0em 0.2em 0.2em black;
+  min-height: 95vh;
 }
 #nav {
   padding: 30px;
