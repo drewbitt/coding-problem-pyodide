@@ -12,11 +12,12 @@
             </b-field>
             <b-field>
               <template slot="label">
-                <span class="has-text-white" style="padding: 0.4em">Input
+                <span class="has-text-white" style="padding: 0.4em"
+                  >Input
                   <b-tooltip
                     label="Sets the variable 'inp' to input. Multi-line input treated as an array."
                     style="top: 6px;"
-                    multilined="true"
+                    multilined
                   >
                     <b-icon pack="fas" icon="info-circle" type="is-white" />
                   </b-tooltip>
@@ -32,6 +33,7 @@
                 v-model="codeL"
                 class="codemirror"
                 :options="cmOption"
+                ref="cm"
               />
             </b-field>
             <b-field>
@@ -60,7 +62,6 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/mode/python/python.js";
 
 export default {
-  name: "code-editor",
   props: {
     name: String,
     input: String,
@@ -76,13 +77,54 @@ export default {
       codeL: this.code,
       outputL: this.output,
       cmOption: {
-        tabSize: 4,
         styleActiveLine: true,
         lineNumbers: true,
-        lineWrapping: false,
-        line: true,
         mode: "text/x-python",
-        theme: "lesser-dark"
+        theme: "lesser-dark",
+        // better use of spaces for tab https://github.com/codemirror/CodeMirror/issues/988#issuecomment-549644684
+        extraKeys: {
+          Tab: cm => {
+            if (cm.getMode().name === "null") {
+              cm.execCommand("insertTab");
+            } else {
+              if (cm.somethingSelected()) {
+                cm.execCommand("indentMore");
+              } else {
+                cm.execCommand("insertSoftTab");
+              }
+            }
+          },
+          Backspace: cm => {
+            if (!cm.somethingSelected()) {
+              let cursorsPos = cm
+                .listSelections()
+                .map(selection => selection.anchor);
+              let indentUnit = cm.options.indentUnit;
+              let shouldDelChar = false;
+              for (let cursorIndex in cursorsPos) {
+                let cursorPos = cursorsPos[cursorIndex];
+                let indentation = cm.getStateAfter(cursorPos.line).indented;
+                if (
+                  !(
+                    indentation !== 0 &&
+                    cursorPos.ch <= indentation &&
+                    cursorPos.ch % indentUnit === 0
+                  )
+                ) {
+                  shouldDelChar = true;
+                }
+              }
+              if (!shouldDelChar) {
+                cm.execCommand("indentLess");
+              } else {
+                cm.execCommand("delCharBefore");
+              }
+            } else {
+              cm.execCommand("delCharBefore");
+            }
+          },
+          "Shift-Tab": cm => cm.execCommand("indentLess")
+        }
       }
     };
   },
@@ -147,7 +189,7 @@ export default {
                 'inp = "' + this.realInput + '"\n' + this.codeL
               );
             } else {
-              // Not string. 
+              // Not string.
               this.outputL = pyodide.runPython(
                 "inp = " + this.realInput + "\n" + this.codeL
               );
@@ -170,7 +212,7 @@ export default {
         return parseFloat(vr);
         // Matches array (incomplete)
       } else if (vr.match(/^\[.+,\S+\]$/)) {
-        return vr.slice(1,-1).split(',');
+        return vr.slice(1, -1).split(",");
       } else {
         return vr;
       }
@@ -200,6 +242,10 @@ export default {
         this.$router.push("/");
       }
     }
+  },
+  mounted() {
+    // Override default to 100% of container
+    this.$refs.cm.codemirror.setSize("100%", "100%");
   },
   computed: {
     realInput: function() {
@@ -249,7 +295,7 @@ export default {
 <style>
 .codemirror {
   border: 1px solid #000000;
-  height: auto;
+  height: 45vh;
   text-align: left;
 }
 </style>
