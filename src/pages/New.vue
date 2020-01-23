@@ -15,7 +15,7 @@
                 <span class="has-text-white" style="padding: 0.4em"
                   >Input
                   <b-tooltip
-                    label="Sets the variable 'inp' to input. Multi-line input treated as an array."
+                    label="Sets the variable 'inp' to input. Multi-line input treated as an array. Strings only need quotes in arrays."
                     style="top: 6px;"
                     multilined
                   >
@@ -175,28 +175,33 @@ export default {
     runCode() {
       plugin().then(() => {
         pyodide.loadPackage(["numpy"]).then(() => {
+          var runCode;
           // if there is a variable to set
-          if (this.realInput) {
-            // Type of input check
-            // check if not array and is string to see if need quotes
-            if (
-              this.isString(this.realInput) &&
-              // Make sure it's not multiple lines
-              !this.inputL.includes("\n")
-            ) {
-              // single line string - put quotes around it
-              this.outputL = pyodide.runPython(
-                'inp = "' + this.realInput + '"\n' + this.codeL
-              );
+          if (this.codeL) {
+            if (this.realInput) {
+              // Type of input check
+              // check if string to see if need quotes
+              if (
+                this.isString(this.realInput)
+                // // Make sure it's not multiple lines
+                // && !this.inputL.includes("\n")
+              ) {
+                // single line string - put quotes around it
+                runCode = 'inp = "' + this.realInput + '"\n' + this.codeL;
+              } else if (this.isArray(this.realInput)) {
+                runCode = "inp = [" + this.realInput + "]\n" + this.codeL;
+              } else {
+                // So not going to be interpreting input as string
+                runCode = "inp = " + this.realInput + "\n" + this.codeL;
+              }
             } else {
-              // Not string.
-              this.outputL = pyodide.runPython(
-                "inp = " + this.realInput + "\n" + this.codeL
-              );
+              // TODO: think there's some logical error
+              // Nothing in input or multine. Just run code.
+              runCode = this.codeL;
             }
-          } else {
-            // Nothing in input. Just run code.
-            this.outputL = pyodide.runPython(this.codeL);
+
+            console.log(runCode);
+            this.outputL = pyodide.runPython(runCode);
           }
         });
       });
@@ -219,6 +224,9 @@ export default {
     },
     isString(vr) {
       return Object.prototype.toString.call(vr) === "[object String]";
+    },
+    isArray(vr) {
+      return Object.prototype.toString.call(vr) === "[object Array]";
     }
   },
   beforeMount() {
@@ -269,10 +277,12 @@ export default {
           ) {
             // deal with trailing commas
             if (i == splitArr.length - 1) {
-              newArr = newArr + "'" + inp + "'";
+              newArr = newArr + '"' + inp + '"';
             } else {
-              newArr = newArr + "'" + inp + "',";
+              newArr = newArr + '"' + inp + '",';
             }
+            // } else if (this.isArray(inp)) {
+            //   newArr = newArr + "[" + inp + "]";
           } else {
             if (i == splitArr.length - 1) {
               newArr = newArr + inp;
