@@ -216,7 +216,7 @@ export default {
       } else if (vr.match(/^[+-]?\d+(\.\d+)?$/)) {
         return parseFloat(vr);
         // Matches array (incomplete)
-      } else if (vr.match(/^\[.+,\S+\]$/)) {
+      } else if (vr.match(/^\[.+,\s*\S+\s*\]$/)) {
         return vr.slice(1, -1).split(",");
       } else {
         return vr;
